@@ -17,7 +17,7 @@
   <?php include 'resources/inc/navbar.php'; ?>
 
   <?php
-    $content = isset($_GET['c']) ? $_GET['c'] : '';
+    $content = get('c');
     switch ($content) {
       // publisher
       case 'publisher':

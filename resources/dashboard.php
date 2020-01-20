@@ -1,1 +1,3 @@
-Lorem ipsum dolor sit, amet consectetur adipisicing elit. Natus nam earum magnam reiciendis molestias ipsa minus harum amet odit animi.
+<div class="container mt-4">
+  Lorem ipsum dolor sit amet consectetur adipisicing elit. Et mollitia atque dolorum rem dignissimos, debitis neque a blanditiis quae asperiores!
+</div>
