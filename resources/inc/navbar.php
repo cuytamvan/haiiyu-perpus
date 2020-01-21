@@ -9,10 +9,10 @@
         <a class="nav-link" href="<?=url()?>">Home</a>
       </li>
       <li class="nav-item dropdown">
-        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+        <a class="nav-link dropdown-toggle" href="#" id="nav-master" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
           Master data
         </a>
-        <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
+        <div class="dropdown-menu dropdown-menu-right" aria-labelledby="nav-master">
           <a class="dropdown-item" href="<?=url('?c=publisher')?>">Penerbit</a>
           <a class="dropdown-item" href="<?=url('?c=author')?>">Pengarang</a>
           <a class="dropdown-item" href="<?=url('?c=book')?>">Buku</a>
@@ -21,12 +21,11 @@
         </div>
       </li>
       <li class="nav-item dropdown">
-        <a class="nav-link dropdown-toggle" href="#!" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+        <a class="nav-link dropdown-toggle" href="#!" id="nav-transaction" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
           Transaksi
         </a>
-        <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
+        <div class="dropdown-menu dropdown-menu-right" aria-labelledby="nav-transaction">
           <a class="dropdown-item" href="<?=url('?c=borrowing')?>">Peminjaman</a>
-          <a class="dropdown-item" href="<?=url('?c=return')?>">Pengembalian</a>
         </div>
       </li>
     </ul>
