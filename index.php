@@ -42,6 +42,17 @@
         include 'resources/author/edit.php'; break;
 
       // member
+      case 'book': 
+        $title = 'Buku';
+        include 'resources/book/index.php'; break;
+      case 'book-create': 
+        $title = 'Tambah Buku';
+        include 'resources/book/create.php'; break;
+      case 'book-edit': 
+        $title = 'Edit Buku';
+        include 'resources/book/edit.php'; break;
+
+      // member
       case 'member': 
         $title = 'Anggota';
         include 'resources/member/index.php'; break;
@@ -51,6 +62,11 @@
       case 'member-edit': 
         $title = 'Edit Anggota';
         include 'resources/member/edit.php'; break;
+
+      // borrow
+      case 'borrowing': 
+        $title = 'Pinjam buku';
+        include 'resources/borrow/index.php'; break;
       
       default:
         include 'resources/dashboard.php';
