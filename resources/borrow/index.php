@@ -28,11 +28,14 @@
             <thead>
               <tr>
                 <th style="width: 20px;">No</th>
-                <th>Judul</th>
-                <th>Pengarang</th>
-                <th>Penerbit</th>
-                <th>Tahun</th>
-                <th>Jumlah&nbsp;buku</th>
+                <th>Kode</th>
+                <th>Buku Judul</th>
+                <th>Member</th>
+                <th>Tanggal</th>
+                <th>Tanggal&nbsp;dikembalikan</th>
+                <th>status</th>
+                <th>Denda</th>
+                <th>Sisa denda</th>
                 <th>Aksi</th>
               </tr>
             </thead>
@@ -41,23 +44,39 @@
                 $no = 1;
                 $data = mysqli_query($conn, "SELECT
                     $table.*,
-                    authors.name AS author_name,
-                    publishers.name AS publisher_name
+                    books.title AS book_title,
+                    books.year AS book_year,
+                    members.name AS member_name,
+                    members.phone_number AS member_phone_number
                   FROM $table
-                  INNER JOIN authors ON authors.id = $table.author_id
-                  INNER JOIN publishers ON publishers.id = $table.publisher_id
+                  INNER JOIN books ON books.id = $table.book_id
+                  INNER JOIN members ON members.id = $table.member_id
                   ORDER BY $table.id DESC");
+                  echo mysqli_error($conn);
                 while($r = mysqli_fetch_object($data)){
               ?>
               <tr>
                 <td><?=$no?></td>
-                <td><?=$r->title?></td>
-                <td><?=$r->author_name?></td>
-                <td><?=$r->publisher_name?></td>
-                <td><?=$r->year?></td>
-                <td><?=$r->qty?></td>
+                <td><?=$r->code?></td>
+                <td><?=$r->book_title?> (<?=$r->book_year?>)</td>
+                <td><?=$r->member_name?> (<?=$r->member_phone_number?>)</td>
+                <td><?=date('d M Y', strtotime($r->borrow_date))?></td>
+                <td><?=$r->return_date ? date('d M Y', strtotime($r->return_date)) : '-'?></td>
+                <td><?=!is_null($r->penalty) ? number_format($r->penalty) : '-' ?></td>
+                <td><?=!is_null($r->remaining_fine) ? number_format($r->remaining_fine) : '-' ?></td>
                 <td>
-                  <a href="<?=url('?c=borrowing-edit&id='.$r->id)?>" class="btn btn-success btn-sm">Edit</a>
+                  <?php
+                    if($r->status == '0'){
+                      echo '<span class="badge badge-pill badge-secondary">Belum dikembalikan</span>';
+                    }else if($r->status == '1'){
+                      echo '<span class="badge badge-pill badge-info">Selesai</span>';
+                    }else{
+                      echo '<span class="badge badge-pill badge-warning">Belum lunas</span>';
+                    }
+                  ?>
+                </td>
+                <td class="text-center">
+                  <a href="<?=url('?c=borrowing-edit&id='.$r->id)?>" class="btn btn-success btn-sm mb-1">Edit</a>
                   <form method="post" class="d-inline-block">
                     <input type="hidden" name="id" value="<?=$r->id?>">
                     <button class="btn btn-danger btn-sm" name="remove" onclick="return confirm('Hapus data tersebut?')">Hapus</button>

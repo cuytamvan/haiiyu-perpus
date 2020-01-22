@@ -1,25 +1,41 @@
 <?php
-  $table = 'books';
+  $table = 'borrows';
 
-  if(isset($_POST['submit'])){  
-    $title        = antiInject(post('title'));
-    $author_id    = antiInject(post('author_id'));
-    $publisher_id = antiInject(post('publisher_id'));
-    $year         = antiInject(post('year'));
-    $qty          = antiInject(post('qty'));
-    $description  = antiInject(post('description'));
+  if(isset($_POST['submit'])){
+    $code        = 'B'.date('YmdHis');
+    $book_id     = antiInject(post('book_id'));
+    $member_id   = antiInject(post('member_id'));
+    $description = antiInject(post('description'));
+    $status      = 0;
+    $date        = date('Y-m-d');
 
-    $q = mysqli_query($conn, "INSERT INTO `$table` (`title`, `author_id`, `publisher_id`, `year`, `qty`, `description`) values ('$title', '$author_id', '$publisher_id', '$year', '$qty', '$description')");
+    $check_book = mysqli_fetch_object(mysqli_query($conn, "SELECT * FROM books where id='$book_id'"));
 
-    if($q){
-      echo '<script>
-        alert(\'Berhasil\');
-        document.location.href=\''.url('?c=book').'\'
-      </script>';
+    if($check_book){
+      if($check_book->qty > 0){
+        $q = mysqli_multi_query($conn, "INSERT INTO `$table` (`code`, `book_id`, `member_id`, `borrow_date`, `status`, `description`) values ('$code', '$book_id', '$member_id', '$date', '$status', '$description'); UPDATE books set qty=(qty - 1) where id='$book_id'");
+
+        if($q){
+          echo '<script>
+            alert(\'Berhasil\');
+            document.location.href=\''.url('?c=borrowing').'\'
+          </script>';
+        }else{
+          echo '<script>
+            alert(\'Gagal\');
+            document.location.href=\''.url('?c=borrowing-create').'\'
+          </script>';
+        }
+      }else{
+        echo '<script>
+          alert(\'Buku sudah habis\');
+          document.location.href=\''.url('?c=borrowing-create').'\'
+        </script>';
+      }
     }else{
       echo '<script>
-        alert(\'Gagal\');
-        document.location.href=\''.url('?c=book-create').'\'
+        alert(\'Buku tidak ada\');
+        document.location.href=\''.url('?c=borrowing-create').'\'
       </script>';
     }
   }
@@ -32,39 +48,27 @@
         <div class="card-body p-4">
           <form method="post">
             <div class="row">
-              <div class="col-sm-12 col-md-6 col-lg-4 form-group">
-                <label>Judul</label>
-                <input type="text" name="title" class="form-control" placeholder="Masukan judul" autocomplete="off" required>
-              </div>
-              <div class="col-sm-12 col-md-6 col-lg-4 form-group">
-                <label>Pengarang</label>
-                <select name="author_id" class="form-control">
+              <div class="col-sm-12 col-md-6 form-group">
+                <label>Buku</label>
+                <select name="book_id" class="form-control">
                   <?php
-                    $q = mysqli_query($conn, "SELECT * FROM authors");
+                    $q = mysqli_query($conn, "SELECT * FROM books");
                     while($r = mysqli_fetch_object($q)){
                   ?>
-                  <option value="<?=$r->id?>"><?=$r->name?></option>
-                    <?php } ?>
-                </select>
-              </div>
-              <div class="col-sm-12 col-md-6 col-lg-4 form-group">
-                <label>Penerbit</label>
-                <select name="publisher_id" class="form-control">
-                  <?php
-                    $q = mysqli_query($conn, "SELECT * FROM publishers");
-                    while($r = mysqli_fetch_object($q)){
-                  ?>
-                  <option value="<?=$r->id?>"><?=$r->name?></option>
+                  <option value="<?=$r->id?>"><?=$r->title?> (<?=$r->year?>)</option>
                     <?php } ?>
                 </select>
               </div>
               <div class="col-sm-12 col-md-6 form-group">
-                <label>Tahun</label>
-                <input type="text" name="year" class="form-control only-number" placeholder="Masukan tahun" autocomplete="off" required maxlength="4">
-              </div>
-              <div class="col-sm-12 col-lg-6 form-group">
-                <label>Qty</label>
-                <input type="text" name="qty" class="form-control only-number" placeholder="Masukan jumlah buku" autocomplete="off" required maxlength="4">
+                <label>Anggota</label>
+                <select name="member_id" class="form-control">
+                  <?php
+                    $q = mysqli_query($conn, "SELECT * FROM members");
+                    while($r = mysqli_fetch_object($q)){
+                  ?>
+                  <option value="<?=$r->id?>"><?=$r->name?> (<?=$r->phone_number?>)</option>
+                    <?php } ?>
+                </select>
               </div>
               <div class="col-sm-12 form-group">
                 <label>Deskripsi</label>
@@ -72,7 +76,7 @@
               </div>
               <div class="col-sm-12 ">
                 <button type="submit" name="submit" class="btn btn-primary">Simpan</button>
-                <a href="<?=url('?c=book')?>" class="btn btn-light">Kembali</a>
+                <a href="<?=url('?c=borrowing')?>" class="btn btn-light">Kembali</a>
               </div>
             </div>
           </form>

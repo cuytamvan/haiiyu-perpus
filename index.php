@@ -1,5 +1,6 @@
 <?php
-  require 'app/autoload.php'
+  require 'app/autoload.php';
+  if(!isset($_SESSION['auth'])) header('location: '.url('login.php'));  
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -63,14 +64,30 @@
         $title = 'Edit Anggota';
         include 'resources/member/edit.php'; break;
 
-      // borrow
-      case 'borrowing': 
-        $title = 'Pinjam buku';
-        include 'resources/borrow/index.php'; break;
+      // member
+      case 'user': 
+        $title = 'User';
+        include 'resources/user/index.php'; break;
+      case 'user-create': 
+        $title = 'Tambah User';
+        include 'resources/user/create.php'; break;
+      case 'user-edit': 
+        $title = 'Edit User';
+        include 'resources/user/edit.php'; break;
 
-        case 'borrowing-create': 
-          $title = 'Tambah peminjam';
-          include 'resources/borrow/create.php'; break;
+      // // borrow
+      // case 'borrowing': 
+      //   $title = 'Pinjam buku';
+      //   include 'resources/borrow/index.php'; break;
+
+      // case 'borrowing-create': 
+      //   $title = 'Tambah peminjam';
+      //   include 'resources/borrow/create.php'; break;
+
+      // // return 
+      // case 'return': 
+      //   $title = 'Pengembalian buku';
+      //   include 'resources/return/index.php'; break;
       
       default:
         include 'resources/dashboard.php';
@@ -81,5 +98,7 @@
   <script src="<?=asset('assets/js/jquery.min.js')?>"></script>
   <script src="<?=asset('assets/js/bootstrap.min.js')?>"></script>
   <script src="<?=asset('assets/js/init.js')?>"></script>
+
+  <?php if(function_exists('script')) script(); ?>
 </body>
 </html>
