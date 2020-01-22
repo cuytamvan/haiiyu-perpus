@@ -13,4 +13,4 @@ $username = 'root';
 $password = '';
 $database = 'uts_perpus';
 ```
-> Jika hostname menggunakan port selain 3306, maka tambah setelah hostname, dengan format `<addr>:<port>`, contoh: `127.0.0.1:3306`
+> Jika file app/connection.php tidak ada, maka copy `connection.example.php` lalu rename jadi `connection.php`
