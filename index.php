@@ -75,19 +75,19 @@
         $title = 'Edit User';
         include 'resources/user/edit.php'; break;
 
-      // // borrow
-      // case 'borrowing': 
-      //   $title = 'Pinjam buku';
-      //   include 'resources/borrow/index.php'; break;
+      // borrow
+      case 'borrowing': 
+        $title = 'Pinjam buku';
+        include 'resources/borrow/index.php'; break;
 
-      // case 'borrowing-create': 
-      //   $title = 'Tambah peminjam';
-      //   include 'resources/borrow/create.php'; break;
+      case 'borrowing-create': 
+        $title = 'Tambah peminjam';
+        include 'resources/borrow/create.php'; break;
 
-      // // return 
-      // case 'return': 
-      //   $title = 'Pengembalian buku';
-      //   include 'resources/return/index.php'; break;
+      // return 
+      case 'return': 
+        $title = 'Pengembalian buku';
+        include 'resources/return/index.php'; break;
       
       default:
         include 'resources/dashboard.php';

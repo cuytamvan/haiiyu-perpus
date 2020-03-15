@@ -8,12 +8,12 @@
     $description = antiInject(post('description'));
     $status      = 0;
     $date        = date('Y-m-d');
-
-    $check_book = mysqli_fetch_object(mysqli_query($conn, "SELECT * FROM books where id='$book_id'"));
+    $next_week   = strtotime($date) + (60 * 60 * 24 * 7);
+    $check_book  = mysqli_fetch_object(mysqli_query($conn, "SELECT * FROM books where id='$book_id'"));
 
     if($check_book){
       if($check_book->qty > 0){
-        $q = mysqli_multi_query($conn, "INSERT INTO `$table` (`code`, `book_id`, `member_id`, `borrow_date`, `status`, `description`) values ('$code', '$book_id', '$member_id', '$date', '$status', '$description'); UPDATE books set qty=(qty - 1) where id='$book_id'");
+        $q = mysqli_multi_query($conn, "INSERT INTO `$table` (`code`, `book_id`, `member_id`, `borrow_date`, `max_borrow_date`, `status`, `description`) values ('$code', '$book_id', '$member_id', '$date', ``, '$status', '$description'); UPDATE books set qty=(qty - 1) where id='$book_id'");
 
         if($q){
           echo '<script>

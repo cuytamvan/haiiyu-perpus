@@ -31,11 +31,10 @@
                 <th>Kode</th>
                 <th>Buku Judul</th>
                 <th>Member</th>
-                <th>Tanggal</th>
-                <th>Tanggal&nbsp;dikembalikan</th>
+                <th>Tgl</th>
+                <th>Max Tgl Dikembalikan</th>
+                <th>Tgl Dikembalikan</th>
                 <th>status</th>
-                <th>Denda</th>
-                <th>Sisa denda</th>
                 <th>Aksi</th>
               </tr>
             </thead>
@@ -52,7 +51,7 @@
                   INNER JOIN books ON books.id = $table.book_id
                   INNER JOIN members ON members.id = $table.member_id
                   ORDER BY $table.id DESC");
-                  echo mysqli_error($conn);
+                  // echo mysqli_error($conn);
                 while($r = mysqli_fetch_object($data)){
               ?>
               <tr>
@@ -61,9 +60,8 @@
                 <td><?=$r->book_title?> (<?=$r->book_year?>)</td>
                 <td><?=$r->member_name?> (<?=$r->member_phone_number?>)</td>
                 <td><?=date('d M Y', strtotime($r->borrow_date))?></td>
+                <td><?=date('d M Y', strtotime($r->max_borrow_date))?></td>
                 <td><?=$r->return_date ? date('d M Y', strtotime($r->return_date)) : '-'?></td>
-                <td><?=!is_null($r->penalty) ? number_format($r->penalty) : '-' ?></td>
-                <td><?=!is_null($r->remaining_fine) ? number_format($r->remaining_fine) : '-' ?></td>
                 <td>
                   <?php
                     if($r->status == '0'){
@@ -76,7 +74,6 @@
                   ?>
                 </td>
                 <td class="text-center">
-                  <a href="<?=url('?c=borrowing-edit&id='.$r->id)?>" class="btn btn-success btn-sm mb-1">Edit</a>
                   <form method="post" class="d-inline-block">
                     <input type="hidden" name="id" value="<?=$r->id?>">
                     <button class="btn btn-danger btn-sm" name="remove" onclick="return confirm('Hapus data tersebut?')">Hapus</button>
