@@ -13,7 +13,7 @@
 
     if($check_book){
       if($check_book->qty > 0){
-        $q = mysqli_multi_query($conn, "INSERT INTO `$table` (`code`, `book_id`, `member_id`, `borrow_date`, `max_borrow_date`, `status`, `description`) values ('$code', '$book_id', '$member_id', '$date', ``, '$status', '$description'); UPDATE books set qty=(qty - 1) where id='$book_id'");
+        $q = mysqli_multi_query($conn, "INSERT INTO `$table` (`code`, `book_id`, `member_id`, `borrow_date`, `max_borrow_date`, `status`, `description`) values ('$code', '$book_id', '$member_id', '$date', '$next_week', '$status', '$description'); UPDATE books set qty=(qty - 1) where id='$book_id'");
 
         if($q){
           echo '<script>
@@ -22,7 +22,7 @@
           </script>';
         }else{
           echo '<script>
-            alert(\'Gagal\');
+            alert(\''.$a.'\');
             document.location.href=\''.url('?c=borrowing-create').'\'
           </script>';
         }
