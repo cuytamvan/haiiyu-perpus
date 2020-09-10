@@ -1,7 +1,7 @@
 <?php
   require 'app/autoload.php';
   if(isset($_SESSION['auth'])) header('location: '.url(''));
-  
+
   if(isset($_POST['login'])){
     $username = antiInject(post('username'));
     $password = sha1(post('password'));
@@ -33,7 +33,7 @@
   <link rel="shortcut icon" href="favicon.png" type="image/png">
 </head>
 <body>
-  <div class="row">
+  <div class="row m-0">
     <div class="col-sm-12 col-md-6 col-lg-4 offset-lg-4 offset-md-3 mt-4">
       <div class="card c-card">
         <div class="card-body p-5">
